@@ -1,10 +1,160 @@
 version: '3.8'
 services:
-  gateway-service-tt:
-    container_name: tt-gateway-service
+  gateway-service:
+    container_name: gateway-service
     image: cr.yandex/crp0f2hu4uusc0520q40/gateway-service:develop
     ports:
-      - 6049:6050
+      - 6050:6050
     env_file:
       - ../.env
     restart: always
+    networks:
+      - space21
+
+  auth-service:
+    container_name: auth-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/auth-service:develop
+    ports:
+      - "6060:6060"
+    env_file:
+      - ../.env
+    restart: always
+    networks:
+      - space21
+
+
+  school-service:
+    container_name: school-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/school-service:develop
+    ports:
+      - "6021:6021"
+    env_file:
+      - ../.env
+    restart: always
+    networks:
+      - space21
+
+  friends-service:
+    container_name: friends-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/friends-service:develop
+    ports:
+      - "6014:6014"
+    env_file:
+      - ../.env
+    restart: always
+    depends_on:
+      - friends-service-db
+    networks:
+      - space21
+
+  user-service:
+    container_name: user-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/user-service:develop
+    ports:
+      - "6016:6016"
+    env_file:
+      - ../.env
+    restart: always
+    depends_on:
+      - user-service-db
+    networks:
+      - space21
+
+  optionhub-service:
+    container_name: optionhub-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/optionhub-service:develop
+    ports:
+      - "6025:6025"
+    env_file:
+      - ../.env
+    restart: always
+      #depends_on:
+      #  - friends-service-db
+    networks:
+      - space21
+
+  community-service:
+    container_name: community-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/community-service:develop
+    ports:
+      - "6011:6011"
+    env_file:
+      - ../.env
+    restart: always
+    depends_on:
+      - community-service-db
+    networks:
+      - space21
+
+  jarvis-bot:
+    container_name: jarvis-bot
+    image: cr.yandex/crp0f2hu4uusc0520q40/jarvis-bot:prod
+    env_file:
+      - ../.env
+    restart: always
+    networks:
+      - space21
+
+  friends-service-db:
+    container_name: friends-service-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${FRIENDS_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${FRIENDS_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${FRIENDS_SERVICE_POSTGRES_DB}
+      PGPORT: ${FRIENDS_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${FRIENDS_SERVICE_POSTGRES_PORT}:${FRIENDS_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - friends_db_data:/var/lib/postgresql/data
+    networks:
+      - space21
+
+  user-service-db:
+    container_name: user-service-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${USER_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${USER_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${USER_SERVICE_POSTGRES_DB}
+      PGPORT: ${USER_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${USER_SERVICE_POSTGRES_PORT}:${USER_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - user_db_data:/var/lib/postgresql/data
+    networks:
+      - space21
+
+  community-service-db:
+    container_name: community-service-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${COMMUNITY_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${COMMUNITY_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${COMMUNITY_SERVICE_POSTGRES_DB}
+      PGPORT: ${COMMUNITY_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${COMMUNITY_SERVICE_POSTGRES_PORT}:${COMMUNITY_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - community_db_data:/var/lib/postgresql/data
+    networks:
+      - space21
+  
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+
+volumes:
+  friends_db_data:
+  user_db_data:
+  community_db_data:
+
+networks:
+  space21:
+    external: true

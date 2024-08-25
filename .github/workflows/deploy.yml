@@ -17,7 +17,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE_DEVELOP }}
           script: |
             cd space21/staging/staging-deployment
-            docker-compose down
+            docker-compose --env-file ~/space21/staging/.env down
             git pull origin main
             docker-compose --env-file ~/space21/staging/.env up -d
             
