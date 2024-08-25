@@ -18,7 +18,7 @@ jobs:
           script: |
             cd space21/staging/staging-deployment
             docker-compose down
-            git pull origin master
+            git pull origin main
             docker-compose --env-file ~/space21/staging/.env up -d
             
 #            docker-compose -f ~/space21/docker-compose-dev.yml --env-file ~/space21/.env_dev up -d auth-service
