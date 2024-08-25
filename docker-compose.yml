@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  gateway-service:
+    container_name: gateway-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/gateway-service:develop
+    ports:
+      - 6049:6050
+    env_file:
+      - ../.env
+    restart: always
