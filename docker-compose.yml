@@ -139,6 +139,21 @@ services:
       - community_db_data:/var/lib/postgresql/data
     networks:
       - space21
+
+  avatar-service-db:
+    container_name: avatar-service-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${AVATAR_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${AVATAR_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${AVATAR_SERVICE_POSTGRES_DB}
+      PGPORT: ${AVATAR_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${AVATAR_SERVICE_POSTGRES_PORT}:${AVATAR_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - avatar_db_data:/var/lib/postgresql/data
+    networks:
+      - space21
   
   portainer:
     container_name: portainer
@@ -154,6 +169,7 @@ volumes:
   friends_db_data:
   user_db_data:
   community_db_data:
+  avatar_db_data:
 
 networks:
   space21:
