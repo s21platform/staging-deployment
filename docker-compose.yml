@@ -86,6 +86,19 @@ services:
     networks:
       - space21
 
+  avatar-service:
+    container_name: avatar-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/avatar-service:develop
+    ports:
+      - "6031:6031"
+    env_file:
+      - ../.env
+    restart: always
+    depends_on:
+      - avatar-service-db
+    networks:
+      - space21
+
   jarvis-bot:
     container_name: jarvis-bot
     image: cr.yandex/crp0f2hu4uusc0520q40/jarvis-bot:prod
