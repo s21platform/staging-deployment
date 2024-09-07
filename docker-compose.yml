@@ -194,16 +194,6 @@ services:
       - notification_db_data:/var/lib/postgresql/data
     networks:
       - space21
-  
-  portainer:
-    container_name: portainer
-    image: portainer/portainer-ce
-    ports:
-      - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: always
-
 
 volumes:
   friends_db_data:
