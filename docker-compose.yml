@@ -22,7 +22,6 @@ services:
     networks:
       - space21
 
-
   school-service:
     container_name: school-service
     image: cr.yandex/crp0f2hu4uusc0520q40/school-service:develop
@@ -99,6 +98,19 @@ services:
     networks:
       - space21
 
+  notification-service:
+    container_name: notification-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/notification-service:develop
+    ports:
+      - "6027:6027"
+    env_file:
+      - ../.env
+    restart: always
+    depends_on:
+      - notification-service-db
+    networks:
+      - space21
+
   jarvis-bot:
     container_name: jarvis-bot
     image: cr.yandex/crp0f2hu4uusc0520q40/jarvis-bot:prod
@@ -167,6 +179,21 @@ services:
       - avatar_db_data:/var/lib/postgresql/data
     networks:
       - space21
+
+  notification-service-db:
+    container_name: notification-service-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${NOTIFICATION_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${NOTIFICATION_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${NOTIFICATION_SERVICE_POSTGRES_DB}
+      PGPORT: ${NOTIFICATION_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${NOTIFICATION_SERVICE_POSTGRES_PORT}:${NOTIFICATION_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - notification_db_data:/var/lib/postgresql/data
+    networks:
+      - space21
   
   portainer:
     container_name: portainer
@@ -183,6 +210,7 @@ volumes:
   user_db_data:
   community_db_data:
   avatar_db_data:
+  notification_db_data:
 
 networks:
   space21:
