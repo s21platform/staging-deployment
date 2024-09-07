@@ -226,6 +226,8 @@ volumes:
   community_db_data:
   avatar_db_data:
   notification_db_data:
+  graphite_data:
+  grafana_data:
 
 networks:
   space21:
