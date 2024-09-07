@@ -195,6 +195,31 @@ services:
     networks:
       - space21
 
+  graphite:
+    image: graphiteapp/graphite-statsd
+    container_name: graphite
+    ports:
+      - "2003:2003"  # TCP порт для отправки метрик (Carbon)
+      - "2004:2004"
+      - "7002:7002"  # Carbon порт
+#      - "80:80"      # Web интерфейс Graphite
+    volumes:
+      - graphite_data:/opt/graphite/storage
+    environment:
+      - GRAPHITE_STORAGE_DIR=/opt/graphite/storage
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"  # Web интерфейс Grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin  # Пароль администратора
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - graphite
+
 volumes:
   friends_db_data:
   user_db_data:
