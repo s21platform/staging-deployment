@@ -44,6 +44,7 @@ services:
     restart: always
     depends_on:
       - friends-service-db
+      - kafka
     networks:
       - space21
 
@@ -57,6 +58,7 @@ services:
     restart: always
     depends_on:
       - user-service-db
+      - kafka
     networks:
       - space21
 
@@ -177,12 +179,42 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: always
 
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - space21
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      ALLOW_PLAINTEXT_LISTENER: yes
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: true
+      KAFKA_CREATE_TOPICS: "${FRIENDS_EMAIL_INVITE}:1:1"
+    depends_on:
+      - zookeeper
+    networks:
+      - space21
+    volumes:
+      - kafka_data:/var/lib/kafka/data
 
 volumes:
   friends_db_data:
   user_db_data:
   community_db_data:
   avatar_db_data:
+  kafka_data:
 
 networks:
   space21:
