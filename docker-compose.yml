@@ -135,6 +135,21 @@ services:
     networks:
       - space21
 
+  jarvis-bot-db:
+    container_name: jarvis-bot-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${JARVIS_BOT_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${JARVIS_BOT_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${JARVIS_BOT_POSTGRES_DB}
+      PGPORT: ${JARVIS_BOT_POSTGRES_PORT}
+    ports:
+      - "${JARVIS_BOT_POSTGRES_PORT}:${JARVIS_BOT_POSTGRES_PORT}"
+    volumes:
+      - jarvis_db_data:/var/lib/postgresql/data
+    networks:
+      - space21
+
   user-service-db:
     container_name: user-service-db
     image: postgres:15
@@ -228,6 +243,7 @@ volumes:
   notification_db_data:
   graphite_data:
   grafana_data:
+  jarvis_db_data:
 
 networks:
   space21:
