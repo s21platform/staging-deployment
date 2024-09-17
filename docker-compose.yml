@@ -222,6 +222,8 @@ services:
       - "6033:6379"
     volumes:
       - school-redis:/data
+    networks:
+      - space21
 
   zookeeper:
     image: bitnami/zookeeper:latest
