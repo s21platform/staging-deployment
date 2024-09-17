@@ -32,6 +32,8 @@ services:
     restart: always
     networks:
       - space21
+    depends_on:
+      - school-service-redis
 
   friends-service:
     container_name: friends-service
@@ -213,6 +215,14 @@ services:
     networks:
       - space21
 
+  school-service-redis:
+    container_name: school-service-redis
+    image: redis:alpine
+    ports:
+      - "6033:6379"
+    volumes:
+      - school-redis:/data
+
   zookeeper:
     image: bitnami/zookeeper:latest
     container_name: zookeeper
@@ -278,6 +288,7 @@ volumes:
   grafana_data:
   kafka_data:
   jarvis_db_data:
+  school-redis:
 
 networks:
   space21:
