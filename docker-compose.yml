@@ -9,7 +9,7 @@ services:
       - ../.env
     restart: always
     networks:
-      - space21
+      - space_21
 
   auth-service:
     container_name: auth-service
@@ -20,7 +20,7 @@ services:
       - ../.env
     restart: always
     networks:
-      - space21
+      - space_21
 
   school-service:
     container_name: school-service
@@ -31,7 +31,7 @@ services:
       - ../.env
     restart: always
     networks:
-      - space21
+      - space_21
     depends_on:
       - school-service-redis
 
@@ -47,7 +47,7 @@ services:
       - friends-service-db
       - kafka
     networks:
-      - space21
+      - space_21
 
   user-service:
     container_name: user-service
@@ -61,7 +61,7 @@ services:
       - user-service-db
       - kafka
     networks:
-      - space21
+      - space_21
 
   optionhub-service:
     container_name: optionhub-service
@@ -74,7 +74,7 @@ services:
       #depends_on:
       #  - friends-service-db
     networks:
-      - space21
+      - space_21
 
   community-service:
     container_name: community-service
@@ -87,7 +87,7 @@ services:
     depends_on:
       - community-service-db
     networks:
-      - space21
+      - space_21
 
   avatar-service:
     container_name: avatar-service
@@ -100,7 +100,7 @@ services:
     depends_on:
       - avatar-service-db
     networks:
-      - space21
+      - space_21
 
   notification-service:
     container_name: notification-service
@@ -114,7 +114,16 @@ services:
       - notification-service-db
       - kafka
     networks:
-      - space21
+      - space_21
+
+  front-no-design:
+    container_name: front-no-design
+    image: cr.yandex/crp0f2hu4uusc0520q40/front-no-design:develop
+    env_file:
+      - ../.env
+    restart: always
+    networks:
+      - space_21
 
   jarvis-bot:
     container_name: jarvis-bot
@@ -123,7 +132,7 @@ services:
       - ../.env
     restart: always
     networks:
-      - space21
+      - space_21
 
   friends-service-db:
     container_name: friends-service-db
@@ -138,7 +147,7 @@ services:
     volumes:
       - friends_db_data:/var/lib/postgresql/data
     networks:
-      - space21
+      - space_21
 
   jarvis-bot-db:
     container_name: jarvis-bot-db
@@ -153,7 +162,7 @@ services:
     volumes:
       - jarvis_db_data:/var/lib/postgresql/data
     networks:
-      - space21
+      - space_21
 
   user-service-db:
     container_name: user-service-db
@@ -168,7 +177,7 @@ services:
     volumes:
       - user_db_data:/var/lib/postgresql/data
     networks:
-      - space21
+      - space_21
 
   community-service-db:
     container_name: community-service-db
@@ -183,7 +192,7 @@ services:
     volumes:
       - community_db_data:/var/lib/postgresql/data
     networks:
-      - space21
+      - space_21
 
   avatar-service-db:
     container_name: avatar-service-db
@@ -198,7 +207,7 @@ services:
     volumes:
       - avatar_db_data:/var/lib/postgresql/data
     networks:
-      - space21
+      - space_21
 
   notification-service-db:
     container_name: notification-service-db
@@ -213,7 +222,7 @@ services:
     volumes:
       - notification_db_data:/var/lib/postgresql/data
     networks:
-      - space21
+      - space_21
 
   school-service-redis:
     container_name: school-service-redis
@@ -223,7 +232,7 @@ services:
     volumes:
       - school-redis:/data
     networks:
-      - space21
+      - space_21
 
   zookeeper:
     image: bitnami/zookeeper:latest
@@ -233,7 +242,7 @@ services:
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
     networks:
-      - space21
+      - space_21
 
   kafka:
     image: wurstmeister/kafka:latest
@@ -251,7 +260,7 @@ services:
     depends_on:
       - zookeeper
     networks:
-      - space21
+      - space_21
     volumes:
       - kafka_data:/var/lib/kafka/data
 
@@ -293,5 +302,5 @@ volumes:
   school-redis:
 
 networks:
-  space21:
+  space_21:
     external: true
