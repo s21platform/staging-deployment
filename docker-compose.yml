@@ -288,6 +288,8 @@ services:
       - grafana_data:/var/lib/grafana
     depends_on:
       - graphite
+    networks:
+      - space_21
 
 volumes:
   friends_db_data:
