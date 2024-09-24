@@ -276,6 +276,8 @@ services:
       - graphite_data:/opt/graphite/storage
     environment:
       - GRAPHITE_STORAGE_DIR=/opt/graphite/storage
+    networks:
+      - space_21
 
   grafana:
     image: grafana/grafana
