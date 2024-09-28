@@ -224,6 +224,21 @@ services:
     networks:
       - space_21
 
+  optionhub-service-db:
+    container_name: optionhub-service-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${OPTIONHUB_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${OPTIONHUB_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${OPTIONHUB_SERVICE_POSTGRES_DB}
+      PGPORT: ${OPTIONHUB_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${OPTIONHUB_SERVICE_POSTGRES_PORT}:${OPTIONHUB_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - optionhub_db_data:/var/lib/postgresql/data
+    networks:
+      - space_21
+
   school-service-redis:
     container_name: school-service-redis
     image: redis:alpine
@@ -299,6 +314,7 @@ volumes:
   community_db_data:
   avatar_db_data:
   notification_db_data:
+  optionhub_db_data:
   graphite_data:
   grafana_data:
   kafka_data:
