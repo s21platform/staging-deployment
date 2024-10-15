@@ -116,19 +116,19 @@ services:
     networks:
       - space_21
 
-#  society-service:
-#    container_name: society-service
-#    image: cr.yandex/crp0f2hu4uusc0520q40/society-service:develop
-#    ports:
-#      - "6005:6005"
-#    env_file:
-#      - ../.env
-#    restart: always
-#    depends_on:
-#      - society-service-db
-#      - kafka
-#    networks:
-#      - space_21
+  society-service:
+    container_name: society-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/society-service:develop
+    ports:
+      - "6005:6005"
+    env_file:
+      - ../.env
+    restart: always
+    depends_on:
+      - society-service-db
+      - kafka
+    networks:
+      - space_21
 
   front-no-design:
     container_name: front-no-design
@@ -253,20 +253,20 @@ services:
     networks:
       - space_21
 
-#  society-service-db:
-#    container_name: society-service-db
-#    image: postgres:15
-#    environment:
-#      POSTGRES_USER: ${SOCIETY_SERVICE_POSTGRES_USER}
-#      POSTGRES_PASSWORD: ${SOCIETY_SERVICE_POSTGRES_PASSWORD}
-#      POSTGRES_DB: ${SOCIETY_SERVICE_POSTGRES_DB}
-#      PGPORT: ${SOCIETY_SERVICE_POSTGRES_PORT}
-#    ports:
-#      - "${SOCIETY_SERVICE_POSTGRES_PORT}:${SOCIETY_SERVICE_POSTGRES_PORT}"
-#    volumes:
-#      - society_db_data:/var/lib/postgresql/data
-#    networks:
-#      - space_21
+  society-service-db:
+    container_name: society-service-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${SOCIETY_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${SOCIETY_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${SOCIETY_SERVICE_POSTGRES_DB}
+      PGPORT: ${SOCIETY_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${SOCIETY_SERVICE_POSTGRES_PORT}:${SOCIETY_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - society_db_data:/var/lib/postgresql/data
+    networks:
+      - space_21
 
   school-service-redis:
     container_name: school-service-redis
@@ -349,7 +349,7 @@ volumes:
   kafka_data:
   jarvis_db_data:
   school-redis:
-#  society_db_data:
+  society_db_data:
 
 networks:
   space_21:
