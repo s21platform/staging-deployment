@@ -20,5 +20,6 @@ jobs:
             docker-compose --env-file ~/space21/staging/.env down
             git pull origin main
             docker-compose --env-file ~/space21/staging/.env up -d
+            docker restart nginx_nginx_1
             
 #            docker-compose -f ~/space21/docker-compose-dev.yml --env-file ~/space21/.env_dev up -d auth-service
