@@ -115,6 +115,9 @@ services:
       - kafka
     networks:
       - space_21
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
   society-service:
     container_name: society-service
