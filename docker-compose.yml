@@ -133,6 +133,19 @@ services:
     networks:
       - space_21
 
+  chat-worker-1:
+    container_name: chat-worker-1
+    image: cr.yandex/crp0f2hu4uusc0520q40/chat-worker:develop
+    environment:
+      CHAT_WORKER_PORT: ${CHAT_WORKER_PORT_1}
+    env_file:
+      - ../.env
+    restart: always
+    depends_on:
+      - chat-worker-redis
+    networks:
+      - space_21
+
   front-no-design:
     container_name: front-no-design
     image: cr.yandex/crp0f2hu4uusc0520q40/front-no-design:develop
@@ -281,6 +294,16 @@ services:
     networks:
       - space_21
 
+  chat-worker-redis:
+    container_name: chat-worker-redis
+    image: redis:alpine
+    ports:
+      - "6034:6379"
+    volumes:
+      - chat-redis:/data
+    networks:
+      - space_21
+
   zookeeper:
     image: bitnami/zookeeper:latest
     container_name: zookeeper
@@ -353,6 +376,7 @@ volumes:
   jarvis_db_data:
   school-redis:
   society_db_data:
+  chat-redis:
 
 networks:
   space_21:
