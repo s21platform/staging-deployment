@@ -136,6 +136,8 @@ services:
   chat-worker-1:
     container_name: chat-worker-1
     image: cr.yandex/crp0f2hu4uusc0520q40/chat-worker:develop
+    ports:
+      - "${CHAT_WORKER_PORT_1}:${CHAT_WORKER_PORT_1}"
     environment:
       CHAT_WORKER_PORT: ${CHAT_WORKER_PORT_1}
     env_file:
