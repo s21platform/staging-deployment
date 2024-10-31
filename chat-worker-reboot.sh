@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CR_NAME="chat-worker"
+CR_NAME="$1"
 
 # Ищем все контейнеры, начинающиеся с этого префикса и заканчивающиеся числом
 for container in $(docker ps --filter "name=${CR_NAME}" --format "{{.Names}}"); do
