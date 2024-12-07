@@ -373,6 +373,18 @@ services:
       - grafana_data:/var/lib/grafana
     depends_on:
       - graphite
+      - loki
+    networks:
+      - space_21
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-config.yaml:/etc/loki/local-config.yaml
+    command: -config.file=/etc/loki/local-config.yaml
     networks:
       - space_21
 
