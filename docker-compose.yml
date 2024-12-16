@@ -144,6 +144,17 @@ services:
     networks:
       - space_21
 
+  chat-service:
+    container_name: chat-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/chat-service:develop
+    ports:
+      - "6074:6074"
+    env_file:
+      - ../.env
+    restart: always
+    networks:
+      - space_21
+
   chat-worker-1:
     container_name: chat-worker-1
     image: cr.yandex/crp0f2hu4uusc0520q40/chat-worker:develop
@@ -297,6 +308,21 @@ services:
     networks:
       - space_21
 
+  chat-service-db:
+    container_name: chat-service-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${CHAT_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${CHAT_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${CHAT_SERVICE_POSTGRES_DB}
+      PGPORT: ${CHAT_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${CHAT_SERVICE_POSTGRES_PORT}:${CHAT_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - chat_db_data:/var/lib/postgresql/data
+    networks:
+      - space_21
+
   school-service-redis:
     container_name: school-service-redis
     image: redis:alpine
@@ -401,6 +427,7 @@ volumes:
   jarvis_db_data:
   school-redis:
   society_db_data:
+  chat_db_data:
   chat-redis:
 
 networks:
