@@ -333,6 +333,16 @@ services:
     networks:
       - space_21
 
+  community-service-redis:
+    container_name: community-service-redis
+    image: redis:alpine
+    ports:
+      - "6036:6379"
+    volumes:
+      - community-redis:/data
+    networks:
+      - space_21
+
   chat-worker-redis:
     container_name: chat-worker-redis
     image: redis:alpine
@@ -426,6 +436,7 @@ volumes:
   kafka_data:
   jarvis_db_data:
   school-redis:
+  community-redis:
   society_db_data:
   chat_db_data:
   chat-redis:
