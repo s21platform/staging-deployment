@@ -395,7 +395,7 @@ services:
 #      - "3001:80"      # Web интерфейс Graphite
     volumes:
       - graphite_data:/opt/graphite/storage
-      - statsd.js:/opt/statsd/config/upd.js
+      - ./statsd.js:/opt/statsd/config/upd.js
     environment:
       - GRAPHITE_STORAGE_DIR=/opt/graphite/storage
     networks:
