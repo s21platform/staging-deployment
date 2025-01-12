@@ -16,10 +16,12 @@ jobs:
           key: ${{ secrets.PRIVATE_SSH_KEY_DEVELOP }}
           passphrase: ${{ secrets.PASSPHRASE_DEVELOP }}
           script: |
+            set -e
             cd space21/staging/staging-deployment
             docker-compose --env-file ~/space21/staging/.env down
             git pull origin main
             docker-compose --env-file ~/space21/staging/.env up -d
             docker restart nginx_nginx_1
+            echo "common.stage.deploy:1|c" | nc -u ${{ secrets.HOST_DEVELOP }} ${{ secrets.STATSD_PORT }}
             
 #            docker-compose -f ~/space21/docker-compose-dev.yml --env-file ~/space21/.env_dev up -d auth-service
