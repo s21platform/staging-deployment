@@ -34,6 +34,7 @@ services:
       - space_21
     depends_on:
       - school-service-redis
+      - grafana
 
   friends-service:
     container_name: friends-service
@@ -46,6 +47,7 @@ services:
     depends_on:
       - friends-service-db
       - kafka
+      - grafana
     networks:
       - space_21
 
@@ -60,6 +62,7 @@ services:
     depends_on:
       - user-service-db
       - kafka
+      - grafana
     networks:
       - space_21
 
@@ -71,8 +74,8 @@ services:
     env_file:
       - ../.env
     restart: always
-      #depends_on:
-      #  - friends-service-db
+    depends_on:
+      - grafana
     networks:
       - space_21
 
@@ -86,6 +89,7 @@ services:
     restart: always
     depends_on:
       - community-service-db
+      - grafana
     networks:
       - space_21
 
@@ -99,6 +103,7 @@ services:
     restart: always
     depends_on:
       - avatar-service-db
+      - grafana
     networks:
       - space_21
 
@@ -113,6 +118,7 @@ services:
     depends_on:
       - notification-service-db
       - kafka
+      - grafana
     networks:
       - space_21
     dns:
@@ -130,6 +136,7 @@ services:
     depends_on:
       - society-service-db
       - kafka
+      - grafana
     networks:
       - space_21
 
@@ -140,6 +147,8 @@ services:
       - "6066:6066"
     env_file:
       - ../.env
+    depends_on:
+      - grafana
     restart: always
     networks:
       - space_21
@@ -152,6 +161,8 @@ services:
     env_file:
       - ../.env
     restart: always
+    depends_on:
+      - grafana
     networks:
       - space_21
 
@@ -167,6 +178,7 @@ services:
     restart: always
     depends_on:
       - chat-worker-redis
+      - grafana
     networks:
       - space_21
 
@@ -176,6 +188,8 @@ services:
     env_file:
       - ../.env
     restart: always
+    depends_on:
+      - grafana
     networks:
       - space_21
 
@@ -185,6 +199,8 @@ services:
     env_file:
       - ../.env
     restart: always
+    depends_on:
+      - grafana
     networks:
       - space_21
 
