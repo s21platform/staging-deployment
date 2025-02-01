@@ -175,6 +175,7 @@ services:
       - ../.env
     restart: always
     depends_on:
+      - advert_db_data
       - grafana
     networks:
       - space_21
