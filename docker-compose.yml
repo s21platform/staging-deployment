@@ -182,6 +182,19 @@ services:
     networks:
       - space_21
 
+  advert-service:
+    container_name: advert-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/advert-service:develop
+    ports:
+      - "6051:6051"
+    env_file:
+      - ../.env
+    restart: always
+    depends_on:
+      - grafana
+    networks:
+      - space_21
+
   front-no-design:
     container_name: front-no-design
     image: cr.yandex/crp0f2hu4uusc0520q40/front-no-design:develop
@@ -339,6 +352,21 @@ services:
     networks:
       - space_21
 
+  advert-service-db:
+    container_name: advert-service-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${ADVERT_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${ADVERT_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${ADVERT_SERVICE_POSTGRES_DB}
+      PGPORT: ${ADVERT_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${ADVERT_SERVICE_POSTGRES_PORT}:${ADVERT_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - advert_db_data:/var/lib/postgresql/data
+    networks:
+      - space_21
+
   school-service-redis:
     container_name: school-service-redis
     image: redis:alpine
@@ -458,6 +486,7 @@ volumes:
   community-redis:
   society_db_data:
   chat_db_data:
+  advert_db_data:
   chat-redis:
 
 networks:
