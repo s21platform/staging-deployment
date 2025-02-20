@@ -472,6 +472,36 @@ services:
     networks:
       - space_21
 
+  ldap:
+    image: osixia/openldap:latest
+    container_name: openldap
+    restart: always
+    environment:
+      LDAP_ORGANISATION: "My Company"
+      LDAP_DOMAIN: "space-21.com"
+      LDAP_ADMIN_PASSWORD: "admin"  # Пароль для admin (измени на свой!)
+      LDAP_CONFIG_PASSWORD: "config"  # Пароль для конфига
+    ports:
+      - "389:389"   # Порт LDAP
+      - "636:636"   # Порт LDAP (SSL)
+    volumes:
+      - ldap-data:/var/lib/ldap
+      - ldap-config:/etc/ldap/slapd.d
+    networks:
+      - space_21
+
+  ldap-account-manager:
+    image: ldapaccountmanager/lam
+    container_name: ldap-lam
+    restart: always
+    ports:
+      - "8099:80"
+    environment:
+      - LAM_LANG=en
+      - LAM_PASSWORD=admin  # Пароль для входа
+    networks:
+      - space_21
+
 volumes:
   friends_db_data:
   user_db_data:
@@ -489,6 +519,8 @@ volumes:
   chat_db_data:
   advert_db_data:
   chat-redis:
+  ldap-data:
+  ldap-config:
 
 networks:
   space_21:
