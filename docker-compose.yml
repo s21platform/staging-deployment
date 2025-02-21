@@ -472,35 +472,34 @@ services:
     networks:
       - space_21
 
-  ldap:
-    image: osixia/openldap:latest
-    container_name: openldap
-    restart: always
+  backstage-db:
+    container_name: backstage-db
+    image: postgres:15
     environment:
-      LDAP_ORGANISATION: "My Company"
-      LDAP_DOMAIN: "space-21.com"
-      LDAP_ADMIN_PASSWORD: "admin"  # Пароль для admin (измени на свой!)
-      LDAP_CONFIG_PASSWORD: "config"  # Пароль для конфига
+      POSTGRES_USER: ${BACKSTAGE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${BACKSTAGE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${BACKSTAGE_POSTGRES_DB}
     ports:
-      - "389:389"   # Порт LDAP
-      - "636:636"   # Порт LDAP (SSL)
+      - "8900:5432"
     volumes:
-      - ldap-data:/var/lib/ldap
-      - ldap-config:/etc/ldap/slapd.d
+      - backstage_db_data:/var/lib/postgresql/data
     networks:
       - space_21
 
-  ldap-account-manager:
-    image: ldapaccountmanager/lam
-    container_name: ldap-lam
-    restart: always
+  backstage:
+    image: cr.yandex/crp0f2hu4uusc0520q40/backstage
     ports:
-      - "8099:80"
+      - "7007:7007"
+      - "3005:3000"
     environment:
-      - LAM_LANG=en
-      - LAM_PASSWORD=admin  # Пароль для входа
+      NODE_ENV: production
+      APP_CONFIG: /app/app-config.yaml
+    depends_on:
+      - backstage-db
     networks:
       - space_21
+
+
 
 volumes:
   friends_db_data:
@@ -519,8 +518,7 @@ volumes:
   chat_db_data:
   advert_db_data:
   chat-redis:
-  ldap-data:
-  ldap-config:
+  backstage_db_data:
 
 networks:
   space_21:
