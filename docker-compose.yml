@@ -428,6 +428,31 @@ services:
     volumes:
       - kafka_data:/var/lib/kafka/data
 
+  elasticsearch:
+    image: bitnami/elasticsearch:8.17.3
+    container_name: elasticsearch
+    environment:
+      discovery.type=single-node
+      "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    networks:
+      - space21
+    volumes: 
+      - elasticsearch_data:/var/lib/elasticsearch
+
+  kibana:
+    image: bitnami/kibana:8.17.3
+    container_name: kibana
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    networks:
+      - space21
+
   graphite:
     image: graphiteapp/graphite-statsd
     container_name: graphite
@@ -511,6 +536,7 @@ volumes:
   graphite_data:
   grafana_data:
   kafka_data:
+  elasticsearch_data:
   jarvis_db_data:
   school-redis:
   community-redis:
