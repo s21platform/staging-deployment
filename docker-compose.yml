@@ -437,7 +437,7 @@ services:
     ports:
       - "9200:9200"
     networks:
-      - space21
+      - space_21
     volumes: 
       - elasticsearch_data:/var/lib/elasticsearch
 
@@ -451,7 +451,7 @@ services:
     environment:
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
     networks:
-      - space21
+      - space_21
 
   graphite:
     image: graphiteapp/graphite-statsd
