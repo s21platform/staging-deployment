@@ -180,6 +180,20 @@ services:
     networks:
       - space_21
 
+  feed-service:
+    container_name: feed-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/feed-service:develop
+    ports:
+      - "6002:6002"
+    env_file:
+      - ../.env
+    restart: always
+    depends_on:
+      - feed-service-db
+      - grafana
+    networks:
+      - space_21
+
   chat-worker-1:
     container_name: chat-worker-1
     image: cr.yandex/crp0f2hu4uusc0520q40/chat-worker:develop
@@ -368,6 +382,21 @@ services:
     networks:
       - space_21
 
+  feed-service-db:
+    container_name: feed-service-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${FEED_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${FEED_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${FEED_SERVICE_POSTGRES_DB}
+      PGPORT: ${FEED_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${FEED_SERVICE_POSTGRES_PORT}:${FEED_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - feed_db_data:/var/lib/postgresql/data
+    networks:
+      - space_21
+
   school-service-redis:
     container_name: school-service-redis
     image: redis:alpine
@@ -518,6 +547,7 @@ volumes:
   society_db_data:
   chat_db_data:
   advert_db_data:
+  feed_db_data:
   chat-redis:
   backstage_db_data:
 
