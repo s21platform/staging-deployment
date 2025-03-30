@@ -221,6 +221,17 @@ services:
     networks:
       - space_21
 
+  crm-front:
+    container_name: crm-front
+    image: cr.yandex/crp0f2hu4uusc0520q40/crm-front:develop
+    env_file:
+      - ../.env
+    restart: always
+    depends_on:
+      - grafana
+    networks:
+      - space_21
+
   jarvis-bot:
     container_name: jarvis-bot
     image: cr.yandex/crp0f2hu4uusc0520q40/jarvis-bot:prod
