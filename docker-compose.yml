@@ -194,6 +194,20 @@ services:
     networks:
       - space_21
 
+  staff-service:
+    container_name: staff-service
+    image: cr.yandex/crp0f2hu4uusc0520q40/staff-service:develop
+    ports:
+      - "6037:6037"
+    env_file:
+      - ../.env
+    restart: always
+    depends_on:
+      - staff-service-db
+      - grafana
+    networks:
+      - space_21
+
   chat-worker-1:
     container_name: chat-worker-1
     image: cr.yandex/crp0f2hu4uusc0520q40/chat-worker:develop
@@ -408,6 +422,21 @@ services:
     networks:
       - space_21
 
+  staff-service-db:
+    container_name: staff-service-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${STAFF_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${STAFF_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${STAFF_SERVICE_POSTGRES_DB}
+      PGPORT: ${STAFF_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${STAFF_SERVICE_POSTGRES_PORT}:${STAFF_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - staff_db_data:/var/lib/postgresql/data
+    networks:
+      - space_21
+
   school-service-redis:
     container_name: school-service-redis
     image: redis:alpine
@@ -561,6 +590,7 @@ volumes:
   feed_db_data:
   chat-redis:
   backstage_db_data:
+  staff_db_data:
 
 networks:
   space_21:
