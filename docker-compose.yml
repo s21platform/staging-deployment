@@ -437,6 +437,21 @@ services:
     networks:
       - space_21
 
+  auth-service-db:
+    container_name: auth-service-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${AUTH_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${AUTH_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${AUTH_SERVICE_POSTGRES_DB}
+      PGPORT: ${AUTH_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${AUTH_SERVICE_POSTGRES_PORT}:${AUTH_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+    networks:
+      - space_21
+
   school-service-redis:
     container_name: school-service-redis
     image: redis:alpine
@@ -615,6 +630,7 @@ volumes:
   chat-redis:
   backstage_db_data:
   staff_db_data:
+  auth_db_data:
 
 networks:
   space_21:
