@@ -452,6 +452,21 @@ services:
     networks:
       - space_21
 
+  materials-service-db:
+    container_name: materials-service-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${MATERIALS_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${MATERIALS_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${MATERIALS_SERVICE_POSTGRES_DB}
+      PGPORT: ${MATERIALS_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${MATERIALS_SERVICE_POSTGRES_PORT}:${MATERIALS_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - materials_db_data:/var/lib/postgresql/data
+    networks:
+      - space_21
+
   school-service-redis:
     container_name: school-service-redis
     image: redis:alpine
@@ -511,7 +526,7 @@ services:
       - space_21
     volumes:
       - kafka_data:/var/lib/kafka/data
-      
+
   elasticsearch:
     image: bitnami/elasticsearch:8.17.3
     container_name: elasticsearch
@@ -522,7 +537,7 @@ services:
      - "9200:9200"
     networks:
      - space_21
-    volumes: 
+    volumes:
      - elasticsearch_data:/var/lib/elasticsearch
   kibana:
     image: bitnami/kibana:8.17.3
@@ -630,6 +645,7 @@ volumes:
   chat-redis:
   backstage_db_data:
   staff_db_data:
+  materials_db_data:
   auth_db_data:
 
 networks:
