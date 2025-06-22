@@ -540,6 +540,27 @@ services:
       - space_21
     volumes:
       - kafka_data:/var/lib/kafka/data
+  debezuim:
+    image: debezium/connect:2.5
+    depends_on:
+      - kafka
+    ports:
+      - 8083:8083
+    environment:
+      - BOOTSTRAP_SERVERS=kafka:9092
+      - GROUP_ID=1
+      - CONFIG_STORAGE_TOPIC=connect-configs
+      - OFFSET_STORAGE_TOPIC=connect-offsets
+      - STATUS_STORAGE_TOPIC=connect-status
+      - KEY_CONVERTER=org.apache.kafka.connect.json.JsonConverter
+      - VALUE_CONVERTER=org.apache.kafka.connect.json.JsonConverter
+      - CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE=false
+      - CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE=false
+      - CONNECT_REST_ADVERTISED_HOST_NAME=connect
+      - CONNECT_PLUGIN_PATH=/kafka/connect,/usr/share/java
+      - CONNECT_LOG4J_ROOT_LOGLEVEL=INFO
+    networks:
+      - space_21
 
   elasticsearch:
     image: bitnami/elasticsearch:8.17.3
