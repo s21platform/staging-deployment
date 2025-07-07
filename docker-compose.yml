@@ -530,7 +530,7 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       ALLOW_PLAINTEXT_LISTENER: "yes"
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://217.28.222.68:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_CREATE_TOPICS: "${FRIENDS_EMAIL_INVITE}:1:1"
@@ -542,12 +542,13 @@ services:
       - kafka_data:/var/lib/kafka/data
   debezuim:
     image: debezium/connect:2.5
+    container_name: debezuim
     depends_on:
       - kafka
     ports:
       - 8083:8083
     environment:
-      - BOOTSTRAP_SERVERS=217.28.222.68:9092
+      - BOOTSTRAP_SERVERS=kafka:9092
       - GROUP_ID=1
       - CONFIG_STORAGE_TOPIC=connect-configs
       - OFFSET_STORAGE_TOPIC=connect-offsets
