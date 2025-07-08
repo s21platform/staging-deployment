@@ -525,7 +525,7 @@ services:
     image: bitnami/kafka:3.7
     container_name: kafka
     ports:
-      - "9092:9092"
+      - "9094:9094"
     environment:
       - KAFKA_CFG_NODE_ID=0
       - KAFKA_CFG_PROCESS_ROLES=broker
@@ -559,7 +559,7 @@ services:
       - VALUE_CONVERTER=org.apache.kafka.connect.json.JsonConverter
       - CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE=false
       - CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE=false
-      - CONNECT_REST_ADVERTISED_HOST_NAME=debezium
+      - CONNECT_REST_ADVERTISED_HOST_NAME=connect
       - CONNECT_PLUGIN_PATH=/kafka/connect,/usr/share/java
       - CONNECT_LOG4J_ROOT_LOGLEVEL=INFO
     networks:
