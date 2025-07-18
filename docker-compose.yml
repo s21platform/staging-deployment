@@ -543,7 +543,7 @@ services:
 
 # пока что использую то же имя - kafka Планируется, что при переходе в кубер все поправится
   kafka:
-    image: vectorized/redpanda:latest
+    image: redpandadata/redpanda:latest
     container_name: kafka
     ports:
       - "9092:9092"   # Kafka API
