@@ -700,6 +700,7 @@ volumes:
   graphite_data:
   grafana_data:
   redpanda-data:
+  kafka_data:
   elasticsearch_data:
   jarvis_db_data:
   school-redis:
