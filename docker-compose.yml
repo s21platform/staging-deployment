@@ -511,64 +511,64 @@ services:
     networks:
       - space_21
 
-#  zookeeper:
-#    image: bitnami/zookeeper:latest
-#    container_name: zookeeper
-#    ports:
-#      - "2181:2181"
-#    environment:
-#      - ALLOW_ANONYMOUS_LOGIN=yes
-#    networks:
-#      - space_21
-#
-#  kafka:
-#    image: wurstmeister/kafka:latest
-#    container_name: kafka
-#    ports:
-#      - "9092:9092"
-#    environment:
-#      KAFKA_BROKER_ID: 1
-#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-#      ALLOW_PLAINTEXT_LISTENER: "yes"
-#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-#      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-#      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
-#      KAFKA_CREATE_TOPICS: "${FRIENDS_EMAIL_INVITE}:1:1"
-#    depends_on:
-#      - zookeeper
-#    networks:
-#      - space_21
-#    volumes:
-#      - kafka_data:/var/lib/kafka/data
-
-# пока что использую то же имя - kafka Планируется, что при переходе в кубер все поправится
-  kafka:
-    image: redpandadata/redpanda:latest
-    container_name: kafka
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
     ports:
-      - "9092:9092"   # Kafka API
-      - "9644:9644"   # Admin API (для rpk и мониторинга)
-    volumes:
-      - redpanda-data:/var/lib/redpanda/data
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
     networks:
       - space_21
-    command:
-      - redpanda
-      - start
-      - --overprovisioned
-      - --smp
-      - "1"
-      - --memory
-      - "1G"
-      - --reserve-memory
-      - "0M"
-      - --node-id
-      - "0"
-      - --check=false
-      - --kafka-addr
-      - PLAINTEXT://0.0.0.0:9092
-      - --advertise-kafka-addr
-      - PLAINTEXT://kafka:9092
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_CREATE_TOPICS: "${FRIENDS_EMAIL_INVITE}:1:1"
+    depends_on:
+      - zookeeper
+    networks:
+      - space_21
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+
+# пока что использую то же имя - kafka Планируется, что при переходе в кубер все поправится
+#  kafka:
+#    image: redpandadata/redpanda:latest
+#    container_name: kafka
+#    ports:
+#      - "9092:9092"   # Kafka API
+#      - "9644:9644"   # Admin API (для rpk и мониторинга)
+#    volumes:
+#      - redpanda-data:/var/lib/redpanda/data
+#    networks:
+#      - space_21
+#    command:
+#      - redpanda
+#      - start
+#      - --overprovisioned
+#      - --smp
+#      - "1"
+#      - --memory
+#      - "1G"
+#      - --reserve-memory
+#      - "0M"
+#      - --node-id
+#      - "0"
+#      - --check=false
+#      - --kafka-addr
+#      - PLAINTEXT://0.0.0.0:9092
+#      - --advertise-kafka-addr
+#      - PLAINTEXT://kafka:9092
 
   debezuim:
     image: debezium/connect:2.5
