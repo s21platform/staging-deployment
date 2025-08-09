@@ -501,6 +501,16 @@ services:
     networks:
       - space_21
 
+  jarvis-bot-redis:
+    container_name: jarvis-bot-redis
+    image: redis:alpine
+    ports:
+      - "6089:6379"
+    volumes:
+      - jarvis-redis:/data
+    networks:
+      - space_21
+
   chat-worker-redis:
     container_name: chat-worker-redis
     image: redis:alpine
@@ -727,6 +737,7 @@ volumes:
   staff_db_data:
   materials_db_data:
   auth_db_data:
+  jarvis-redis:
 
 networks:
   space_21:
