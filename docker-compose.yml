@@ -266,8 +266,12 @@ services:
     env_file:
       - ../.env
     restart: always
+    ports:
+      - "6026:6026"
     depends_on:
       - grafana
+      - jarvis-bot-db
+      - jarvis-bot-redis
     networks:
       - space_21
 
@@ -298,6 +302,7 @@ services:
       - "${JARVIS_BOT_POSTGRES_PORT}:${JARVIS_BOT_POSTGRES_PORT}"
     volumes:
       - jarvis_db_data:/var/lib/postgresql/data
+    restart: always
     networks:
       - space_21
 
@@ -508,6 +513,7 @@ services:
       - "6089:6379"
     volumes:
       - jarvis-redis:/data
+    restart: always
     networks:
       - space_21
 
