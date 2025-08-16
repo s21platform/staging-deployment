@@ -275,6 +275,36 @@ services:
     networks:
       - space_21
 
+  creds:
+    container_name: creds
+    image: cr.yandex/crp0f2hu4uusc0520q40/creds:develop
+    env_file:
+      - ../.env
+    restart: always
+    ports:
+      - "6001:6001"
+    depends_on:
+      - grafana
+      - jarvis-bot-db
+      - jarvis-bot-redis
+    networks:
+      - space_21
+
+  creds-db:
+    container_name: creds-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${CREDS_SERVICE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${CREDS_SERVICE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${CREDS_SERVICE_POSTGRES_DB}
+      PGPORT: ${CREDS_SERVICE_POSTGRES_PORT}
+    ports:
+      - "${CREDS_SERVICE_POSTGRES_PORT}:${CREDS_SERVICE_POSTGRES_PORT}"
+    volumes:
+      - creds_db_data:/var/lib/postgresql/data
+    networks:
+      - space_21
+
   friends-service-db:
     container_name: friends-service-db
     image: postgres:15
@@ -744,6 +774,7 @@ volumes:
   materials_db_data:
   auth_db_data:
   jarvis-redis:
+  creds_db_data:
 
 networks:
   space_21:
