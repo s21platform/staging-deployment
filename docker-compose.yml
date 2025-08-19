@@ -615,13 +615,43 @@ services:
       - PLAINTEXT://0.0.0.0:9092
       - --advertise-kafka-addr
       - PLAINTEXT://kafka:9092
+
+  dwh-broker:
+    image: redpandadata/redpanda:latest
+    container_name: dwh-broker
+    ports:
+      - "9192:9092"   # Kafka API
+      - "9744:9644"   # Admin API (для rpk и мониторинга)
+    volumes:
+      - dwh-broker-data:/var/lib/redpanda/data
+    networks:
+      - space_21
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp
+      - "1"
+      - --memory
+      - "1G"
+      - --reserve-memory
+      - "0M"
+      - --node-id
+      - "0"
+      - --check=false
+      - --kafka-addr
+      - PLAINTEXT://0.0.0.0:9092
+      - --advertise-kafka-addr
+      - PLAINTEXT://dwh-broker:9092
+
+
   redpanda-console:
     image: docker.redpanda.com/redpandadata/console:latest
     container_name: redpanda-console
     ports:
       - "18080:8080"
     environment:
-      KAFKA_BROKERS: kafka:9092
+      KAFKA_BROKERS: kafka:9092,dwh-broker:9092
       CONSOLE_BASIC_AUTH_USERNAME: ${REDPANDA_CONSOLE_USERNAME}
       CONSOLE_BASIC_AUTH_PASSWORD: ${REDPANDA_CONSOLE_PASSWORD}
     depends_on:
@@ -775,6 +805,7 @@ volumes:
   auth_db_data:
   jarvis-redis:
   creds_db_data:
+  dwh-broker-data:
 
 networks:
   space_21:
