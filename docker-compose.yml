@@ -601,6 +601,7 @@ services:
     command:
       - redpanda
       - start
+      - --seeds kafka:33145,dwh-broker:33145
       - --overprovisioned
       - --smp
       - "1"
@@ -615,6 +616,10 @@ services:
       - PLAINTEXT://0.0.0.0:9092
       - --advertise-kafka-addr
       - PLAINTEXT://kafka:9092
+      - --rpc-addr
+      - PLAINTEXT://0.0.0.0:33145
+      - --advertise-rpc-addr
+      - PLAINTEXT://kafka:33145
 
   dwh-broker:
     image: redpandadata/redpanda:latest
@@ -629,6 +634,7 @@ services:
     command:
       - redpanda
       - start
+      - --seeds kafka:33145,dwh-broker:33145
       - --overprovisioned
       - --smp
       - "1"
@@ -637,12 +643,16 @@ services:
       - --reserve-memory
       - "0M"
       - --node-id
-      - "0"
+      - "1"
       - --check=false
       - --kafka-addr
       - PLAINTEXT://0.0.0.0:9092
       - --advertise-kafka-addr
       - PLAINTEXT://dwh-broker:9092
+      - --rpc-addr
+      - PLAINTEXT://0.0.0.0:33145
+      - --advertise-rpc-addr
+      - PLAINTEXT://dwh-broker:33145
 
 
   redpanda-console:
@@ -652,8 +662,6 @@ services:
       - "18080:8080"
     environment:
       KAFKA_BROKERS: kafka:9092
-      CONSOLE_BASIC_AUTH_USERNAME: ${REDPANDA_CONSOLE_USERNAME}
-      CONSOLE_BASIC_AUTH_PASSWORD: ${REDPANDA_CONSOLE_PASSWORD}
     depends_on:
       - kafka
       - dwh-broker
