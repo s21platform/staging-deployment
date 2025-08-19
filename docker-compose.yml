@@ -651,11 +651,12 @@ services:
     ports:
       - "18080:8080"
     environment:
-      KAFKA_BROKERS: kafka:9092,dwh-broker:9092
+      KAFKA_BROKERS: kafka:9092
       CONSOLE_BASIC_AUTH_USERNAME: ${REDPANDA_CONSOLE_USERNAME}
       CONSOLE_BASIC_AUTH_PASSWORD: ${REDPANDA_CONSOLE_PASSWORD}
     depends_on:
       - kafka
+      - dwh-broker
     networks:
       - space_21
 
