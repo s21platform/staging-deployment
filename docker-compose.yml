@@ -661,7 +661,7 @@ services:
     ports:
       - "18080:8080"
     environment:
-      KAFKA_BROKERS: kafka:9092
+      KAFKA_BROKERS: kafka:9092,dwh-broker:9092
     depends_on:
       - kafka
       - dwh-broker
