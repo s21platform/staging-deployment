@@ -613,6 +613,10 @@ services:
       - "0"
       - --check=false
       - --enable-http-proxy=true
+      - --pandaproxy-addr
+      - PLAINTEXT://0.0.0.0:8082
+      - --advertise-pandaproxy-addr
+      - PLAINTEXT://kafka:8082
       - --kafka-addr
       - PLAINTEXT://0.0.0.0:9092
       - --advertise-kafka-addr
