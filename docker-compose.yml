@@ -612,7 +612,6 @@ services:
       - --node-id
       - "0"
       - --check=false
-      - --enable-http-proxy=true
       - --pandaproxy-addr
       - PLAINTEXT://0.0.0.0:8082
       - --advertise-pandaproxy-addr
