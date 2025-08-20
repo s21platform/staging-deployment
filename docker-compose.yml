@@ -612,6 +612,7 @@ services:
       - --node-id
       - "0"
       - --check=false
+      - --enable-http-proxy=true
       - --kafka-addr
       - PLAINTEXT://0.0.0.0:9092
       - --advertise-kafka-addr
