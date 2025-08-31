@@ -802,6 +802,8 @@ services:
     restart: always
     volumes:
       - vmdata:/victoria-metrics-data
+    networks:
+      - space_21
 
 
 volumes:
