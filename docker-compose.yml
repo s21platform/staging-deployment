@@ -790,6 +790,18 @@ services:
     networks:
       - space_21
 
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:v1.103.0
+    container_name: victoriametrics
+    ports:
+      - "8428:8428"  # HTTP API (запись/чтение)
+      - "2033:2003"   # Graphite input
+    command:
+      - "-retentionPeriod=1"  # хранить 1 месяц
+      - "-graphiteListenAddr=:2003"
+    restart: always
+    volumes:
+      - vmdata:/victoria-metrics-data
 
 
 volumes:
@@ -819,6 +831,7 @@ volumes:
   jarvis-redis:
   creds_db_data:
   dwh-broker-data:
+  vmdata:
 
 networks:
   space_21:
