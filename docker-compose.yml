@@ -601,7 +601,7 @@ services:
     command:
       - redpanda
       - start
-      - --seeds kafka:33145,dwh-broker:33145
+      - --seeds kafka:33145 #,dwh-broker:33145
       - --overprovisioned
       - --smp
       - "1"
@@ -625,38 +625,38 @@ services:
       - --advertise-rpc-addr
       - PLAINTEXT://kafka:33145
 
-  dwh-broker:
-    image: redpandadata/redpanda:latest
-    container_name: dwh-broker
-    ports:
-      - "9192:9092"   # Kafka API
-      - "9744:9644"   # Admin API (для rpk и мониторинга)
-    volumes:
-      - dwh-broker-data:/var/lib/redpanda/data
-    networks:
-      - space_21
-    command:
-      - redpanda
-      - start
-      - --seeds kafka:33145,dwh-broker:33145
-      - --overprovisioned
-      - --smp
-      - "1"
-      - --memory
-      - "1G"
-      - --reserve-memory
-      - "0M"
-      - --node-id
-      - "1"
-      - --check=false
-      - --kafka-addr
-      - PLAINTEXT://0.0.0.0:9092
-      - --advertise-kafka-addr
-      - PLAINTEXT://dwh-broker:9092
-      - --rpc-addr
-      - PLAINTEXT://0.0.0.0:33145
-      - --advertise-rpc-addr
-      - PLAINTEXT://dwh-broker:33145
+#  dwh-broker:
+#    image: redpandadata/redpanda:latest
+#    container_name: dwh-broker
+#    ports:
+#      - "9192:9092"   # Kafka API
+#      - "9744:9644"   # Admin API (для rpk и мониторинга)
+#    volumes:
+#      - dwh-broker-data:/var/lib/redpanda/data
+#    networks:
+#      - space_21
+#    command:
+#      - redpanda
+#      - start
+#      - --seeds kafka:33145,dwh-broker:33145
+#      - --overprovisioned
+#      - --smp
+#      - "1"
+#      - --memory
+#      - "1G"
+#      - --reserve-memory
+#      - "0M"
+#      - --node-id
+#      - "1"
+#      - --check=false
+#      - --kafka-addr
+#      - PLAINTEXT://0.0.0.0:9092
+#      - --advertise-kafka-addr
+#      - PLAINTEXT://dwh-broker:9092
+#      - --rpc-addr
+#      - PLAINTEXT://0.0.0.0:33145
+#      - --advertise-rpc-addr
+#      - PLAINTEXT://dwh-broker:33145
 
 
   redpanda-console:
@@ -665,10 +665,10 @@ services:
     ports:
       - "18080:8080"
     environment:
-      KAFKA_BROKERS: kafka:9092,dwh-broker:9092
+      KAFKA_BROKERS: kafka:9092 #,dwh-broker:9092
     depends_on:
       - kafka
-      - dwh-broker
+      #- dwh-broker
     networks:
       - space_21
 
@@ -832,7 +832,7 @@ volumes:
   auth_db_data:
   jarvis-redis:
   creds_db_data:
-  dwh-broker-data:
+  # dwh-broker-data:
   vmdata:
 
 networks:
