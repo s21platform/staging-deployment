@@ -608,6 +608,8 @@ services:
       - "1G"
       - --reserve-memory
       - "0M"
+      - --mode
+      - "dev-container"
       - --node-id
       - "0"
       - --check=false
