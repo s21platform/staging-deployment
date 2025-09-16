@@ -601,7 +601,6 @@ services:
     command:
       - redpanda
       - start
-      - --seeds kafka:33145 #,dwh-broker:33145
       - --overprovisioned
       - --smp
       - "1"
@@ -620,10 +619,6 @@ services:
       - PLAINTEXT://0.0.0.0:9092
       - --advertise-kafka-addr
       - PLAINTEXT://kafka:9092
-      - --rpc-addr
-      - PLAINTEXT://0.0.0.0:33145
-      - --advertise-rpc-addr
-      - PLAINTEXT://kafka:33145
 
 #  dwh-broker:
 #    image: redpandadata/redpanda:latest
