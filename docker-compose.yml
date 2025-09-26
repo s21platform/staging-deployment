@@ -780,7 +780,7 @@ services:
       # (опционально) отключить аутентификацию API
       DISABLE_API: "false"
     volumes:
-      - ./charts:/charts
+      - chartmuseum_vol:/charts
     networks:
       - space_21
 
@@ -812,6 +812,7 @@ volumes:
   jarvis-redis:
   creds_db_data:
   vmdata:
+  chartmuseum_vol:
 
 networks:
   space_21:
