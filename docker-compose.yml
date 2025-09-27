@@ -769,6 +769,7 @@ services:
       - space_21
   chartmuseum:
     image: ghcr.io/helm/chartmuseum:v0.14.0
+    user: "1000:1000"
     container_name: chartmuseum
     restart: always
     ports:
