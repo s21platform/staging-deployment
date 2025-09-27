@@ -769,6 +769,7 @@ services:
       - space_21
   chartmuseum:
     image: chartmuseum/chartmuseum:latest
+    user: "10000:10000"
     container_name: chartmuseum
     restart: always
     ports:
