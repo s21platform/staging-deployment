@@ -768,8 +768,7 @@ services:
     networks:
       - space_21
   chartmuseum:
-    image: chartmuseum/chartmuseum:latest
-    user: "10000:10000"
+    image: ghcr.io/helm/chartmuseum:v0.14.0
     container_name: chartmuseum
     restart: always
     ports:
@@ -781,7 +780,7 @@ services:
       # (опционально) отключить аутентификацию API
       DISABLE_API: "false"
     volumes:
-      - chartmuseum_vol:/charts
+      - chartmuseum_data:/charts
     networks:
       - space_21
 
@@ -813,7 +812,7 @@ volumes:
   jarvis-redis:
   creds_db_data:
   vmdata:
-  chartmuseum_vol:
+  chartmuseum_data:
 
 networks:
   space_21:
