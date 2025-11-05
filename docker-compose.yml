@@ -526,6 +526,16 @@ services:
     networks:
       - space_21
 
+  materials-service-redis:
+    container_name: materials-service-redis
+    image: redis:alpine
+    ports:
+      - "6035:6379"
+    volumes:
+      - materials-redis:/data
+    networks:
+      - space_21
+
   community-service-redis:
     container_name: community-service-redis
     image: redis:alpine
@@ -814,6 +824,7 @@ volumes:
   creds_db_data:
   vmdata:
   chartmuseum_data:
+  materials-redis:
 
 networks:
   space_21:
